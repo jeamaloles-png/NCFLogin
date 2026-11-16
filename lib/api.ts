@@ -1,5 +1,5 @@
 import { CONFIG } from "./config";
-import { getAccessToken } from "./auth";
+import { clearTokens, getAccessToken } from "./auth";
 
 interface FetchOptions extends RequestInit {
   requiresAuth?: boolean;
@@ -22,9 +22,7 @@ export async function apiClient<T>(
     }
   }
 
-  const baseUrl = CONFIG.API_BASE_URL.replace(/\/+$/, "");
-  const path = endpoint.replace(/^\/+/, "");
-  const response = await fetch(`${baseUrl}/${path}`, {
+  const response = await fetch(`${CONFIG.API_BASE_URL}${endpoint}`, {
     headers: {
       ...defaultHeaders,
       ...headers,
@@ -32,11 +30,21 @@ export async function apiClient<T>(
     ...restOptions,
   });
 
-  const data = await response.json();
+  if (response.status === 401 && requiresAuth) {
+    clearTokens();
+    if (typeof window !== "undefined") {
+      window.location.href = CONFIG.ROUTES.LOGIN;
+    }
+    throw new Error("Session expired. Please log in again.");
+  }
+
+  const text = await response.text();
+  const data = text ? JSON.parse(text) : {};
 
   if (!response.ok) {
-    const errorMessage =
-      Array.isArray(data.message) ? data.message.join(", ") : data.message || "An unexpected error occurred.";
+    const errorMessage = Array.isArray(data.message)
+      ? data.message.join(", ")
+      : data.message || "An unexpected error occurred.";
     throw new Error(errorMessage);
   }
 
