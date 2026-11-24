@@ -120,12 +120,13 @@ export default function DashboardPage() {
     setSaving(true);
     setError("");
     try {
-      await apiClient<Game>("/vault/games", {
+      const addedGame = await apiClient<Game>("/vault/games", {
         method: "POST",
         requiresAuth: true,
         body: JSON.stringify({ name }),
       });
       setGameName("");
+      if (accountDialog) setGameId(String(addedGame.id));
       await loadGames();
       setSuccess(`${name} added to your game list.`);
     } catch (err) {
@@ -261,7 +262,7 @@ export default function DashboardPage() {
             </div>
             <div className="vault-toolbar-actions">
               <Button type="button" variant="outline" onClick={() => { setGameDialog(true); setError(""); }}><Pencil className="mr-2 h-4 w-4" />Manage games</Button>
-              <Button type="button" onClick={openAddAccount} disabled={!games.length}><Plus className="mr-2 h-4 w-4" />Add account</Button>
+              <Button type="button" onClick={openAddAccount}><Plus className="mr-2 h-4 w-4" />Add account</Button>
             </div>
           </CardHeader>
           <CardContent>
@@ -334,6 +335,7 @@ export default function DashboardPage() {
             <header className="game-modal-header"><div><h2 id="account-form-title">{editing ? "Edit game account" : "Add a game account"}</h2><p>Select a game first, then enter its account details.</p></div><Button type="button" variant="outline" size="icon" aria-label="Close account form" onClick={() => { setAccountDialog(false); resetAccountForm(); }}><X /></Button></header>
             <form className="vault-account-form" onSubmit={(event) => void saveAccount(event)}>
               <div><Label htmlFor="game-choice">Game</Label><select id="game-choice" className="h-9 w-full rounded-md border bg-background px-3 text-sm" value={gameId} onChange={(event) => setGameId(event.target.value)} required><option value="">Choose a game</option>{games.map((game) => <option key={game.id} value={game.id}>{game.name}</option>)}</select></div>
+              {!games.length && <div className="vault-no-results">No games in your list yet. <Button type="button" variant="outline" onClick={() => setGameDialog(true)}>Add a game</Button></div>}
               {gameId && <>
                 <div><Label htmlFor="game-username">Game username</Label><Input id="game-username" autoComplete="off" maxLength={120} value={username} onChange={(event) => setUsername(event.target.value)} required /></div>
                 <div><Label htmlFor="game-password">Game password</Label><div className="vault-password-input"><Input id="game-password" type={showPassword ? "text" : "password"} autoComplete="new-password" maxLength={2048} placeholder={editing ? "Leave blank to keep the saved password" : "Enter the game password"} value={password} onChange={(event) => setPassword(event.target.value)} required={!editing} /><Button type="button" variant="outline" size="icon" aria-label={showPassword ? "Hide password" : "Show password"} onClick={() => setShowPassword((current) => !current)}>{showPassword ? <EyeOff /> : <Eye />}</Button></div></div>
