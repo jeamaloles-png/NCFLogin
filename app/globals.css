@@ -929,3 +929,224 @@ body {
     min-width: 760px;
   }
 }
+
+.vault-toolbar,
+.game-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.vault-toolbar-actions,
+.vault-search,
+.vault-search-field,
+.vault-password-input,
+.game-modal-actions,
+.manage-game-form,
+.manage-game-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.vault-search {
+  margin-bottom: 18px;
+}
+
+.vault-search-field {
+  position: relative;
+  flex: 1;
+}
+
+.vault-search-field > svg {
+  position: absolute;
+  left: 12px;
+  z-index: 1;
+  width: 17px;
+  color: #d0a569;
+}
+
+.vault-search-field input {
+  padding-left: 39px;
+}
+
+.game-account-table-wrap {
+  overflow-x: auto;
+  border: 1px solid #30343e;
+}
+
+.vault-empty,
+.vault-no-results {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 28px 16px;
+  color: #929ba9;
+  text-align: center;
+}
+
+.vault-empty strong {
+  color: #f0ede6;
+  font-size: 16px;
+}
+
+.vault-empty span {
+  font-size: 13px;
+}
+
+.game-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  overflow-y: auto;
+  padding: 20px;
+  background: rgb(3 5 9 / 78%);
+  backdrop-filter: blur(5px);
+}
+
+.game-modal {
+  width: min(100%, 560px);
+  max-height: min(90svh, 780px);
+  overflow: auto;
+  border: 1px solid #46414a;
+  border-radius: 5px;
+  background: linear-gradient(145deg, #1b1f28, #11141b);
+  padding: 23px;
+  box-shadow: 0 24px 80px rgb(0 0 0 / 55%);
+}
+
+.game-modal-header {
+  margin-bottom: 20px;
+}
+
+.game-modal-header h2 {
+  margin: 0;
+  color: #f5f1e9;
+  font-family: "Arial Black", "Arial", sans-serif;
+  font-size: 20px;
+}
+
+.game-modal-header p {
+  margin: 5px 0 0;
+  color: #9da6b4;
+  font-size: 12px;
+}
+
+.manage-game-form > div,
+.vault-account-form > div {
+  display: grid;
+  flex: 1;
+  gap: 7px;
+}
+
+.manage-game-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.manage-game-row {
+  justify-content: space-between;
+  border: 1px solid #30343e;
+  background: rgb(8 11 17 / 35%);
+  padding: 10px 12px;
+  color: #e9e5dc;
+}
+
+.manage-game-list > p {
+  color: #929ba9;
+  font-size: 13px;
+}
+
+.vault-account-form {
+  display: grid;
+  gap: 15px;
+}
+
+.vault-password-input input {
+  flex: 1;
+}
+
+.vault-notes-input {
+  width: 100%;
+  resize: vertical;
+  border: 1px solid #3b404a;
+  border-radius: 3px;
+  background-color: #10131a;
+  padding: 10px 12px;
+  color: #f1eee8;
+}
+
+.vault-notes-input:focus-visible {
+  border-color: #c94b43;
+  outline: 2px solid rgb(201 75 67 / 24%);
+  outline-offset: 1px;
+}
+
+.vault-encryption-note {
+  border-left: 2px solid #c99d5f;
+  background: rgb(201 157 95 / 7%);
+  padding: 10px 12px;
+  color: #c9b488;
+  font-size: 12px;
+}
+
+.game-modal-actions {
+  justify-content: flex-end;
+  margin-top: 5px;
+}
+
+.vault-revealed-details {
+  display: grid;
+  gap: 13px;
+}
+
+.vault-revealed-details > div {
+  display: grid;
+  gap: 7px;
+  border: 1px solid #30343e;
+  background: rgb(8 11 17 / 35%);
+  padding: 12px;
+}
+
+.vault-revealed-details span {
+  color: #9ba3ae;
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.vault-revealed-details strong {
+  overflow-wrap: anywhere;
+  color: #e9e5dc;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+@media (max-width: 680px) {
+  .vault-toolbar,
+  .vault-toolbar-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .vault-search {
+    flex-wrap: wrap;
+  }
+
+  .vault-search-field {
+    flex: 1 1 100%;
+  }
+
+  .manage-game-form {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .game-modal {
+    padding: 18px;
+  }
+}
